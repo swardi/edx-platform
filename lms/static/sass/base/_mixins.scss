@@ -164,3 +164,11 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+// extends - content - text overflow by ellipsis
+%cont-truncated {
+  @include box-sizing(border-box);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
