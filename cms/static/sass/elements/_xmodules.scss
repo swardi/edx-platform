@@ -4,10 +4,16 @@
 // general - display mode (xblock-student_view or xmodule_display)
 .xmodule_display,
 .xblock-student_view {
+
   // font styling
   i,
   em {
     font-style: italic;
+  }
+
+
+  .icon {
+    font-style: normal;
   }
 }
 
