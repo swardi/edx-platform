@@ -440,7 +440,7 @@ define(["jquery", "underscore", "underscore.string", "js/common_helpers/ajax_hel
                         if (isStaffOnly) {
                             expect(containerPage.$('.action-staff-lock i')).toHaveClass('fa-check');
                         } else {
-                            expect(containerPage.$('.action-staff-lock i')).toHaveClass('fa-check-empty');
+                            expect(containerPage.$('.action-staff-lock i')).toHaveClass('fa-square-o');
                         }
                     };
 
