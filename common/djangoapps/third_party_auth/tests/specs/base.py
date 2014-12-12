@@ -135,7 +135,7 @@ class IntegrationTest(testutil.TestCase, test.TestCase):
             else:
                 expected_control_text = pipeline.get_login_url(self.PROVIDER_CLASS.NAME, pipeline.AUTH_ENTRY_DASHBOARD)
 
-            icon_state = re.search(r'third-party-auth.+icon icon-(\w+)', response.content, re.DOTALL).groups()[0]
+            icon_state = re.search(r'third-party-auth.+icon fa fa-(\w+)', response.content, re.DOTALL).groups()[0]
             provider_name = re.search(r'<span class="provider">([^<]+)', response.content, re.DOTALL).groups()[0]
 
             self.assertIn(expected_control_text, response.content)
