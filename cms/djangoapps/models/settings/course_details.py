@@ -2,7 +2,6 @@ import re
 import logging
 import datetime
 import json
-import pudb
 from json.encoder import JSONEncoder
 
 from opaque_keys.edx.locations import Location
