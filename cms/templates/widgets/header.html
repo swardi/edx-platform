@@ -11,8 +11,15 @@
   <header class="primary" role="banner">
 
     <div class="wrapper wrapper-l">
-      ## "edX Studio" should not be translated
-      <h1 class="branding"><a href="/"><img src="${static.url("images/edx-studio-logo.png")}" alt="edX Studio" /></a></h1>
+      <h1 class="branding"><a href="/">
+      % if settings.FEATURES.get('IS_EDX_DOMAIN', False):
+        ## "edX Studio" should not be translated
+        <img src="${static.url("images/edx-theme/edx-studio-logo.png")}" alt="edX Studio" />
+      % else:
+        ## Translators: this is the name of the Studio course authoring system.
+        <img src="${static.url("images/studio-logo.png")}" alt="${_("Studio")}" />
+      % endif
+      </a></h1>
 
       % if context_course:
       <%
