@@ -7,9 +7,11 @@ from opaque_keys.edx.keys import CourseKey
 from milestones.api import (
     get_course_milestones,
     get_courses_milestones,
+    get_milestones,
     get_user_milestones,
     add_milestone,
     add_course_milestone,
+    add_user_milestone,
     remove_course_milestone,
 )
 
@@ -38,12 +40,12 @@ def add_prerequisite_course(course_key, prerequisite_course_key):
     add_course_milestone(course_key, 'requires', requirement_milestone)
 
     # add or get a milestone to be used as fulfillment
-    fulfillment_milestone = add_milestone({
-        'name': 'Course {} fulfills {}'.format(unicode(prerequisite_course_key), unicode(course_key)),
-        'namespace': unicode(course_key),
-        'description': '',
-    })
-    add_course_milestone(prerequisite_course_key, 'fulfills', fulfillment_milestone)
+    # fulfillment_milestone = add_milestone({
+    #     'name': 'Course {} fulfills {}'.format(unicode(prerequisite_course_key), unicode(course_key)),
+    #     'namespace': unicode(course_key),
+    #     'description': '',
+    # })
+    # add_course_milestone(prerequisite_course_key, 'fulfills', fulfillment_milestone)
 
 
 def remove_prerequisite_course(course_key, milestone):
@@ -117,3 +119,13 @@ def get_prc_not_completed(user, enrolled_courses):
                 pre_requisite_courses.pop(course_id)
 
     return pre_requisite_courses
+
+
+def collect_course_milestone(course_key, user):
+    """
+    It would save course milestone collected by user
+    """
+    course_milestones = get_milestones(unicode(course_key))
+    if course_milestones:
+        milestone = course_milestones[0]
+        add_user_milestone({'id': user.id}, milestone)
