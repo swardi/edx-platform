@@ -1530,8 +1530,6 @@ MKTG_URL_LINK_MAP = {
     'TOS': 'tos',
     'HONOR': 'honor',
     'PRIVACY': 'privacy_edx',
-    'JOBS': 'jobs',
-    'NEWS': 'news',
     'PRESS': 'press',
     'BLOG': 'edx-blog',
     'DONATE': 'donate',

@@ -14,12 +14,26 @@
               ${_("About")}
           </a>
           </li>
-          <li class="nav-colophon-02">
+	  %if marketing_link('JOBS') != '#':
+            <li class="nav-colophon-02">
+              <a id="faq" href="${marketing_link('JOBS')}">
+		${_("Jobs")}
+              </a>
+            </li>
+	  %endif
+	  %if marketing_link('NEWS') != '#':
+            <li class="nav-colophon-03">
+              <a id="faq" href="${marketing_link('NEWS')}">
+		${_("News")}
+              </a>
+            </li>
+	  %endif
+          <li class="nav-colophon-04">
           <a id="faq" href="${marketing_link('FAQ')}">
               ${_("FAQ")}
           </a>
           </li>
-          <li class="nav-colophon-03">
+          <li class="nav-colophon-05">
           <a id="contact" href="${marketing_link('CONTACT')}">
               ${_("Contact")}
           </a>
@@ -37,6 +51,7 @@
         </p>
       </div>
 
+      ## Translators: '&copy;' is an HTML character code for the copyright symbol
       <p class="copyright">${_("&copy; 2014 {platform_name}, some rights reserved").format(platform_name=settings.PLATFORM_NAME)}</p>
         <nav class="nav-legal">
           <ul>
