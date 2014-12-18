@@ -1,7 +1,8 @@
 ;(function (define, undefined) {
 'use strict';
 define([
-     'jquery', 'underscore', 'annotator', 'js/edxnotes/utils/logger', 'js/edxnotes/views/shim'
+     'jquery', 'underscore', 'annotator', 'js/edxnotes/utils/logger',
+     'js/edxnotes/views/shim', 'js/edxnotes/plugins/scroller'
 ], function ($, _, Annotator, Logger) {
     var plugins = ['Auth', 'Store', 'Scroller'],
         getOptions, setupPlugins, updateHeaders, getAnnotator;

@@ -57,59 +57,6 @@ define(['jquery', 'underscore', 'annotator'], function ($, _, Annotator) {
     };
 
     /**
-     * Adds the Scroller Plugin which scrolls to a note with a certain id and
-     * opens it.
-     **/
-    Annotator.Plugin.Scroller = function (element, options) {
-        // Call the Annotator.Plugin constructor this sets up the element and
-        // options properties.
-        Annotator.Plugin.apply(this, arguments);
-    };
-
-    $.extend(Annotator.Plugin.Scroller.prototype, new Annotator.Plugin(), {
-        getIdFromLocationHash: function() {
-            return window.location.hash.substr(1);
-        },
-
-        pluginInit: function () {
-            // If the page URL contains a hash, we could be coming from a click
-            // on an anchor in the notes page. In that case, the hash is the id
-            // of the note that has to be scrolled to and opened.
-            if (this.getIdFromLocationHash()) {
-                this.annotator.subscribe('annotationsLoaded', _.bind(this.notesLoaded, this));
-            }
-        },
-
-        destroy: function () {
-            this.annotator.unsubscribe('annotationsLoaded', _.bind(this.notesLoaded, this));
-        },
-
-        notesLoaded: function (notes) {
-            var highlight, offset, event, hash = this.getIdFromLocationHash();
-
-            _.each(notes, function (note) {
-                if (note.id === hash && note.highlights.length) {
-                    // Clear the page URL hash, it won't be needed once we've
-                    // scrolled and opened the relevant note. And it would
-                    // unnecessarily repeat the steps below if we come from
-                    // another sequential.
-                    window.location.hash = '';
-                    highlight = $(note.highlights[0]);
-                    offset = highlight.offset();
-                    // Scroll to highlight
-                    $('html, body').animate({scrollTop: offset.top}, 'slow');
-                    // Open the note
-                    event = $.Event('click', {
-                        pageX: offset.left,
-                        pageY: offset.top
-                    });
-                    highlight.trigger(event);
-                }
-            });
-        }
-    });
-
-    /**
      * Modifies Annotator.highlightRange to add a "tabindex=0" attribute
      * to the <span class="annotator-hl"> markup that encloses the note.
      * These are then focusable via the TAB key.
@@ -132,7 +79,7 @@ define(['jquery', 'underscore', 'annotator'], function ($, _, Annotator) {
             // We are destroying the instance that has the popup visible, revert to default,
             // unfreeze all instances and set their isFrozen to false
             if (this === Annotator.frozenSrc) {
-                _.invoke(Annotator._instances, 'unfreeze');
+                this.unfreezeAll();
             } else {
                 // Unfreeze only this instance and unbound associated 'click.edxnotes:freeze' handler
                 $(document).off('click.edxnotes:freeze' + this.uid);
@@ -182,7 +129,7 @@ define(['jquery', 'underscore', 'annotator'], function ($, _, Annotator) {
                 this.onHighlightMouseover.call(this, event);
             }
             Annotator.frozenSrc = this;
-            _.invoke(Annotator._instances, 'freeze');
+            this.freezeAll();
         },
 
         onNoteClick: function (event) {
@@ -190,7 +137,7 @@ define(['jquery', 'underscore', 'annotator'], function ($, _, Annotator) {
             Annotator.Util.preventEventDefault(event);
             if (!$(event.target).is('.annotator-delete')) {
                 Annotator.frozenSrc = this;
-                _.invoke(Annotator._instances, 'freeze');
+                this.freezeAll();
             }
         },
 
@@ -200,7 +147,7 @@ define(['jquery', 'underscore', 'annotator'], function ($, _, Annotator) {
                 this.removeEvents();
                 this.viewer.element.unbind('mouseover mouseout');
                 this.uid = _.uniqueId();
-                $(document).on('click.edxnotes:freeze'+this.uid, this.unfreeze.bind(this));
+                $(document).on('click.edxnotes:freeze' + this.uid, _.bind(this.unfreeze, this));
                 this.isFrozen = true;
             }
         },
@@ -218,6 +165,19 @@ define(['jquery', 'underscore', 'annotator'], function ($, _, Annotator) {
                 this.isFrozen = false;
                 Annotator.frozenSrc = null;
             }
+        },
+
+        freezeAll: function () {
+            _.invoke(Annotator._instances, 'freeze');
+        },
+
+        unfreezeAll: function () {
+            _.invoke(Annotator._instances, 'unfreeze');
+        },
+
+        showFrozenViewer: function (annotations, location) {
+            this.showViewer(annotations, location);
+            this.freezeAll();
         }
     });
 });
