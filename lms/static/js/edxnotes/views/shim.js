@@ -112,6 +112,17 @@ define(['jquery', 'underscore', 'annotator'], function ($, _, Annotator) {
         '</li>'
     ].join('');
 
+    /**
+     * Modifies Annotator._setupViewer to add a "click" event on viewer.
+     **/
+    Annotator.prototype._setupViewer = _.compose(
+        function () {
+            this.viewer.element.on('click', _.bind(this.onNoteClick, this));
+            return this;
+        },
+        Annotator.prototype._setupViewer
+    );
+
     $.extend(true, Annotator.prototype, {
         events: {
             '.annotator-hl click': 'onHighlightClick',
