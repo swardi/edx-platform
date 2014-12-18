@@ -1274,7 +1274,6 @@ class DescriptorSystem(MetricsMixin, ConfigurableFragmentWrapper, Runtime):  # p
             result['default_value'] = field.to_json(field.default)
         return result
 
-
     def handler_url(self, block, handler_name, suffix='', query='', thirdparty=False):
         # Currently, Modulestore is responsible for instantiating DescriptorSystems
         # This means that LMS/CMS don't have a way to define a subclass of DescriptorSystem
