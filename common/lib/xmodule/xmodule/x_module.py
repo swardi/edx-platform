@@ -416,6 +416,9 @@ class XModuleMixin(XBlockMixin):
             for child_loc in self.children:
                 try:
                     child = self.runtime.get_block(child_loc)
+                    if child is None:
+                        continue
+
                     child.runtime.export_fs = self.runtime.export_fs
                 except ItemNotFoundError:
                     log.warning(u'Unable to load item {loc}, skipping'.format(loc=child_loc))
@@ -1616,11 +1619,23 @@ class PureSystem(object):
         Otherwise, return block.
         """
         if isinstance(block, XModuleDescriptor) and block.xmodule_runtime:
-            return block._xmodule
+            return block._xmodule  # pylint: disable=protected-access
         else:
             return block
 
     def render(self, block, view_name, context=None):
+        """
+        Render a block by invoking its view.
+
+        Finds the view named `view_name` on `block`.  The default view will be
+        used if a specific view hasn't be registered.  If there is no default
+        view, an exception will be raised.
+
+        The view is invoked, passing it `context`.  The value returned by the
+        view is returned, with possible modifications by the runtime to
+        integrate it into a larger whole.
+
+        """
         if view_name in PREVIEW_VIEWS:
             block = self._get_student_block(block)
 
