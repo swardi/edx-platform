@@ -98,6 +98,8 @@ def get_test_system(course_id=SlashSeparatedCourseKey('org', 'course', 'run')):
 
     def get_module(descriptor):
         """Mocks module_system get_module function"""
+        # pylint: disable=protected-access
+
         # Unlike XBlock Runtimes or DescriptorSystems,
         # each XModule is provided with a new ModuleSystem.
         # Construct one for the new XModule.
@@ -107,7 +109,7 @@ def get_test_system(course_id=SlashSeparatedCourseKey('org', 'course', 'run')):
         # So, bind to the same one as the current descriptor.
         module_system.descriptor_runtime = descriptor.runtime._descriptor_system
 
-        descriptor.bind_for_student(module_system, descriptor._field_data)  # pylint: disable=protected-access
+        descriptor.bind_for_student(module_system, descriptor._field_data)
 
         return descriptor
 
