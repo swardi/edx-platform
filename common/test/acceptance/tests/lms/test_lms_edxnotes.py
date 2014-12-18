@@ -259,13 +259,8 @@ class EdxNotesPageTest(EdxNotesTestMixin):
                 usage_id=xblocks[0].locator,
                 user=self.username,
                 course_id=self.course_fixture._course_key,
-<<<<<<< HEAD
-                text="Annotate this text",
-                quote="Second note",
-=======
                 text="Second note",
                 quote="Annotate this text",
->>>>>>> 7549006... TNL-784: Scroll and opening of note functions.
                 updated=datetime(2013, 1, 1, 1, 1, 1, 1).isoformat(),
                 ranges=[Range(startOffset=0, endOffset=18)],
             ),
